@@ -10,6 +10,8 @@ class OrdersController < ApplicationController
 
     if order.valid?
       empty_cart!
+      # sends order confirmation email
+      OrderMailer.order_confirmation(order).deliver_now
       redirect_to order, notice: 'Your Order has been placed.'
     else
       redirect_to cart_path, flash: { error: order.errors.full_messages.first }
@@ -27,6 +29,7 @@ class OrdersController < ApplicationController
   end
 
   def perform_stripe_charge
+    puts "Token in use !!!!!! #{:stripeToken} #{:stripeEmail}"
     Stripe::Charge.create(
       source:      params[:stripeToken],
       amount:      cart_subtotal_cents,
