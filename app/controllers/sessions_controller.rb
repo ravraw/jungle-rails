@@ -13,7 +13,8 @@ class SessionsController < ApplicationController
    user = User.find_by_email(params[:email])
     # If the user exists AND the password entered is correct.
     if user && user.authenticate(params[:password])
-      session[:user_id] = @user.id
+      session[:email] = user.email
+      session[:user_id] = user.id
       redirect_to '/'
     else
       # flash[:notice] = "Email or password is invalid"
@@ -22,6 +23,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    
+    session[:email] = nil
     session[:user_id] = nil
     redirect_to '/'
   end
