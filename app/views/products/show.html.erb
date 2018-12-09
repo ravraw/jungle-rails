@@ -26,6 +26,21 @@
       </div>
     </div>
 
+        <!-- Display the new review form -->
+    <div class="row">
+      <h2>Reviews</h2>
+      <% if current_user %>
+        <%= render 'reviews/new'%>
+      <% end %>
+
+      <!-- Display a list of reviews -->
+      <div class="col-sm-12">
+        <% @product.reviews.order(id: :desc).each do |review| %>
+          <%= render 'reviews/review', review: review %>
+        <% end %>
+      </div>
+    </div>
+
   </article>
 
 </section>
